@@ -1,0 +1,46 @@
+(%s)/ai(%d)?enable=(%d)&gain=(%d)&iepe=(%d)&coupling=(%d)
+
+prompt:
+char* config = "192.168.17.100/ai2?enable=1&gain=1&iepe=1&coupling=1\r\n192.168.17.100/ai4?enable=1&gain=1&iepe=1&coupling=1\r\n";
+使用c语言解析字符串config：
+1.以"\r\n"为间隔符，获取单条配置信息
+2.以"/"为间隔符，获取对应的设备地址，如：192.168.17.100
+3.以"ai"为间隔符，获取对应的通道号，如：2
+4.以"?enable="为间隔符，获取对应的enable参数
+5.以"&gain="为间隔符，获取对应的gain参数
+6.以"&iepe="为间隔符，获取对应的iepe参数
+7.以"&coupling="为间隔符，获取对应的coupling参数
+8.并且&enable=1&gain=1&iepe=1&coupling=1可以不存在
+获取对应的参数，并创建对应的变量存储起来
+
+结构体为：
+typedef struct Channel Channel;
+
+typedef struct Channel {
+    int channel_id;
+    int gain;
+    int iepe;
+    int coupling;
+};
+传进去的参数一个是config，另一个是Channel* channels，channels是一个数组，用于存储解析出来的通道信息，以"\r\n"为间隔符得到的一条信息为一个通道。
+并包装成一个函数：int parse(char* config, Channel* channels);
+
+
+[settings]
+arch=x86_64
+build_type=Release
+compiler=msvc
+compiler.cppstd=14
+compiler.runtime=dynamic
+compiler.runtime_type=Release
+compiler.version=193
+os=Windows
+
+阅读这个链接：https://github.com/srdja/Collections-C/tree/master
+告诉我这个包里的hashtable怎么用，并给出一个简单示例
+
+
+https://github.com/ocornut/imgui/tree/master
+这个链接是关于c语言的imgui库，告诉我：
+1. 如何将这个库加入进cmake工程中
+2. 如何使用这个库，并给出一个简单示例

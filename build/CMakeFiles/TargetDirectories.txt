@@ -1,0 +1,3 @@
+C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/daq_ui.dir
+C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/ZERO_CHECK.dir

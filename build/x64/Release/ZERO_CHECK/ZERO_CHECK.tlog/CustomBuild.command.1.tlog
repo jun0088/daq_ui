@@ -1,0 +1,10 @@
+^C:\USERS\PRM\DESKTOP\DAQ_UI\BUILD\CMAKEFILES\2282A194894A26B88343023F8447C4A5\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/prm/Desktop/daq_ui -BC:/Users/prm/Desktop/daq_ui/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/prm/Desktop/daq_ui/build/daq_ui.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

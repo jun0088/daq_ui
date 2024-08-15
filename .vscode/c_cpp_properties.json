@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Users/prm/.conan2/p/zerom79d983c7bec8c/p/include",
+                "C:/Users/prm/.conan2/p/libsod7e5db4c9d86c/p/include",
+                "C:/Users/prm/.conan2/p/imgui1895edcc2db9a/p/include",
+                "${workspaceFolder}/external/Collections-C/src/include",
+                "${workspaceFolder}/external/imgui/backends"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "msvc-x64",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.39.33519/bin/Hostx86/x64/cl.exe"
+        }
+    ],
+    "version": 4
+}
