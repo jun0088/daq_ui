@@ -13,9 +13,6 @@
     <ClCompile Include="C:\Users\prm\Desktop\daq_ui\src\lib\imgui_impl_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\prm\Desktop\daq_ui\src\lib\ui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\prm\Desktop\daq_ui\src\lib\daq_ui.h">

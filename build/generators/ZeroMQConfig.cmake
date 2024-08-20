@@ -25,7 +25,7 @@ foreach(_DEPENDENCY ${zeromq_FIND_DEPENDENCY_NAMES} )
     endif()
 endforeach()
 
-set(ZeroMQ_VERSION_STRING "4.3.4")
+set(ZeroMQ_VERSION_STRING "4.3.5")
 set(ZeroMQ_INCLUDE_DIRS ${zeromq_INCLUDE_DIRS_RELEASE} )
 set(ZeroMQ_INCLUDE_DIR ${zeromq_INCLUDE_DIRS_RELEASE} )
 set(ZeroMQ_LIBRARIES ${zeromq_LIBRARIES_RELEASE} )

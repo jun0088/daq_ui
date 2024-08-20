@@ -20,7 +20,7 @@ class daqRecipe(ConanFile):
 
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*"
-    requires = "zeromq/4.3.4", "imgui/cci.20230105+1.89.2.docking"
+    requires = "zeromq/4.3.5", "imgui/cci.20230105+1.89.2.docking"
 
     build_policy = "missing"
 

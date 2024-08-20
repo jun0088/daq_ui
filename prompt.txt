@@ -44,3 +44,6 @@ https://github.com/ocornut/imgui/tree/master
 这个链接是关于c语言的imgui库，告诉我：
 1. 如何将这个库加入进cmake工程中
 2. 如何使用这个库，并给出一个简单示例
+
+
+使用c++将字符串“<dev_605ca5286f51685c mac=5bcdef12349f ip=c0a8009f”中的“c0a8009f”部分提取出来

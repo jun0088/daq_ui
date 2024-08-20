@@ -28,10 +28,27 @@ void CreateRenderTarget();
 void CleanupRenderTarget();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
+using namespace std;
 // Main code
 int main(int, char**)
 {
+
+    // string arrIp = ScanBoard();
+    // if (arrIp.empty()) {
+    //     printf("Failed to scan board\n");
+    //     return -1;
+    // }
+    // cout << "Board IPs: " << arrIp << endl;
+    // vector<string> arrIpVec;
+    // Stringsplit(arrIp, ",", arrIpVec);
+    // if (arrIpVec.size() == 0) {
+    //     printf("Failed to split board IP\n");
+    //     return -1;
+    // }
+    // for (int i = 0; i < arrIpVec.size(); i++) {
+    //     cout << "Board IP: " << arrIpVec[i] << endl;
+    // }
+
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL };
@@ -67,6 +84,25 @@ int main(int, char**)
     bool show_demo_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    
+    static string arrIp = ScanBoard();
+    if (arrIp.empty()) {
+        printf("Failed to scan board\n");
+        // return -1;
+    }
+    // cout << "Board IPs: " << arrIp << endl;
+    static vector<string> arrIpVec;
+    Stringsplit(arrIp, ",", arrIpVec);
+    if (arrIpVec.size() == 0) {
+        printf("Failed to split board IP\n");
+        // return -1;
+    }
+
+    static vector<Board> boardVec;
+    for (int i = 0; i < arrIpVec.size(); i++) {
+        boardVec.push_back(Board(i, arrIpVec[i]));
+    }
+
     // Main loop
     bool done = false;
     while (!done)
@@ -92,46 +128,70 @@ int main(int, char**)
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         
         ImGui::ShowDemoWindow(&show_demo_window);
-        {
-            ImGui::Begin("DAQ");
-            {
+        // {
+        //     ImGui::Begin("DAQ");
+        //     {
 
-                std::ifstream file("output.txt");
-                if (!file.is_open()) {
-                    std::cerr << "Failed to open file." << std::endl;
-                    return 1;
-                }
+        //         std::ifstream file("output.txt");
+        //         if (!file.is_open()) {
+        //             std::cerr << "Failed to open file." << std::endl;
+        //             return 1;
+        //         }
 
-                std::vector<float> floatArray;
-                std::string line;
-                while (std::getline(file, line)) {
-                    std::istringstream iss(line);
-                    float num;
-                    while (iss >> num) {
-                        floatArray.push_back(num);
-                    }
-                }
-                file.close();
+        //         std::vector<float> floatArray;
+        //         std::string line;
+        //         while (std::getline(file, line)) {
+        //             std::istringstream iss(line);
+        //             float num;
+        //             while (iss >> num) {
+        //                 floatArray.push_back(num);
+        //             }
+        //         }
+        //         file.close();
 
-                // 将vector转换为数组
-                float* floatArrayPtr = new float[floatArray.size()];
-                for (size_t i = 0; i < floatArray.size(); ++i) {
-                    floatArrayPtr[i] = floatArray[i];
-                }
+        //         // 将vector转换为数组
+        //         float* floatArrayPtr = new float[floatArray.size()];
+        //         for (size_t i = 0; i < floatArray.size(); ++i) {
+        //             floatArrayPtr[i] = floatArray[i];
+        //         }
 
-                ImGui::PlotLines("daq", floatArrayPtr, floatArray.size(), 0, NULL, -0.005f, 0.005f, ImVec2(800, 600.0f));
-                delete[] floatArrayPtr;
-            }
+        //         ImGui::PlotLines("daq", floatArrayPtr, floatArray.size(), 0, NULL, -0.005f, 0.005f, ImVec2(800, 600.0f));
+        //         delete[] floatArrayPtr;
+        //     }
 
-            ImGui::End();
-        }
+        //     ImGui::End();
+        // }
 
-        static Board board;
+        
         // static bool trig = false;
         {
             ImGui::Begin("Config"); 
-            ShowBoardWindow(board);
+            int open_action = -1;
+            if (ImGui::Button("Open all"))
+                open_action = 1;
+            ImGui::SameLine();
+            if (ImGui::Button("Close all"))
+                open_action = 0;
+            // ImGui::SameLine();
+            ImGui::Separator();
 
+            static int config_flag = 1;
+            if (ImGui::Button("BuildConfigTxt")) {
+                config_flag = BuildConfigTxt(boardVec);
+            }
+            if (config_flag == 0) {
+                ImGui::SameLine();
+                ImGui::Text("BuildConfigTxt done!");
+            } else if (config_flag == -1) {
+                ImGui::SameLine();
+                ImGui::Text("BuildConfigTxt failed!");
+            }
+            ImGui::Separator();         
+
+
+            for (int i = 0; i < boardVec.size(); i++) {
+                ShowBoardWindow(boardVec[i], open_action);
+            }
             ImGui::End();      
         }
 

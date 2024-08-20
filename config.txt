@@ -1,0 +1,10 @@
+192.168.0.6/trig?internal=1
+192.168.0.6/ai0?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.6/ai1?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.6/ai2?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.6/ai3?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.6/ai4?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.6/ai5?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.173/ai1?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.159/ai1?ctrl=1&gain=0&iepe=0&coupling=0&cal=0
+192.168.0.159/ai3?ctrl=1&gain=0&iepe=0&coupling=0&cal=0

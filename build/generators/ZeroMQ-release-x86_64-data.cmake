@@ -13,7 +13,7 @@ set(libsodium_FIND_MODE "NO_MODULE")
 
 ########### VARIABLES #######################################################################
 #############################################################################################
-set(zeromq_PACKAGE_FOLDER_RELEASE "C:/Users/prm/.conan2/p/zerom79d983c7bec8c/p")
+set(zeromq_PACKAGE_FOLDER_RELEASE "C:/Users/prm/.conan2/p/zeromec2ecc4e3be71/p")
 set(zeromq_BUILD_MODULES_PATHS_RELEASE )
 
 
@@ -30,7 +30,7 @@ set(zeromq_LIB_DIRS_RELEASE "${zeromq_PACKAGE_FOLDER_RELEASE}/lib")
 set(zeromq_BIN_DIRS_RELEASE )
 set(zeromq_LIBRARY_TYPE_RELEASE STATIC)
 set(zeromq_IS_HOST_WINDOWS_RELEASE 1)
-set(zeromq_LIBS_RELEASE libzmq-v143-mt-s-4_3_4)
+set(zeromq_LIBS_RELEASE libzmq-v143-mt-s-4_3_5)
 set(zeromq_SYSTEM_LIBS_RELEASE iphlpapi ws2_32)
 set(zeromq_FRAMEWORK_DIRS_RELEASE )
 set(zeromq_FRAMEWORKS_RELEASE )
@@ -62,7 +62,7 @@ set(zeromq_libzmq-static_OBJECTS_RELEASE )
 set(zeromq_libzmq-static_COMPILE_DEFINITIONS_RELEASE "ZMQ_STATIC")
 set(zeromq_libzmq-static_COMPILE_OPTIONS_C_RELEASE "")
 set(zeromq_libzmq-static_COMPILE_OPTIONS_CXX_RELEASE "")
-set(zeromq_libzmq-static_LIBS_RELEASE libzmq-v143-mt-s-4_3_4)
+set(zeromq_libzmq-static_LIBS_RELEASE libzmq-v143-mt-s-4_3_5)
 set(zeromq_libzmq-static_SYSTEM_LIBS_RELEASE iphlpapi ws2_32)
 set(zeromq_libzmq-static_FRAMEWORK_DIRS_RELEASE )
 set(zeromq_libzmq-static_FRAMEWORKS_RELEASE )
