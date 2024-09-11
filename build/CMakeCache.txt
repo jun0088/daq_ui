@@ -121,6 +121,21 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 //Value Computed by CMake
 CMAKE_PROJECT_NAME:STATIC=daq_ui
 
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION:STATIC=0.0.1
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MINOR:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_PATCH:STATIC=1
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_TWEAK:STATIC=
+
 //RC compiler
 CMAKE_RC_COMPILER:FILEPATH=rc
 
@@ -195,8 +210,50 @@ CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=generators/conan_toolchain.cmake
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=PKG_CONFIG_EXECUTABLE-NOTFOUND
+
 //The directory containing a CMake configuration file for ZeroMQ.
 ZeroMQ_DIR:PATH=C:/Users/prm/Desktop/daq_ui/build/generators
+
+//Value Computed by CMake
+cc_pool_bench_BINARY_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/build/external/Collections-C/test/benchmark/pool
+
+//Value Computed by CMake
+cc_pool_bench_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+cc_pool_bench_SOURCE_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/external/Collections-C/test/benchmark/pool
+
+//Value Computed by CMake
+collectc_BINARY_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/build/external/Collections-C/src
+
+//Value Computed by CMake
+collectc_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+collectc_SOURCE_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/external/Collections-C/src
+
+//Value Computed by CMake
+collectc_hashtable_examples_BINARY_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/build/external/Collections-C/examples/hashtable
+
+//Value Computed by CMake
+collectc_hashtable_examples_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+collectc_hashtable_examples_SOURCE_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/external/Collections-C/examples/hashtable
+
+//Value Computed by CMake
+collectc_test_BINARY_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/build/external/Collections-C/test/unit
+
+//Value Computed by CMake
+collectc_test_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+collectc_test_SOURCE_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/external/Collections-C/test/unit
 
 //Value Computed by CMake
 daq_ui_BINARY_DIR:STATIC=C:/Users/prm/Desktop/daq_ui/build
@@ -294,7 +351,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
@@ -340,4 +397,10 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//collectc: Include directories
+collectc_INCLUDE_DIRS:INTERNAL=C:/Users/prm/Desktop/daq_ui/external/Collections-C/src/include
 

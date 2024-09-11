@@ -1,12 +1,13 @@
-// Dear ImGui: standalone example application for DirectX 11
-// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
-// Read online: https://github.com/ocornut/imgui/tree/master/docs
 #include <stdio.h>
 #include <math.h> 
 #include "daq_ui.h"
+#include "daq.h"
 #include "imgui.h"
+#include "imconfig.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#include "implot.h"
+#include "implot_internal.h"
 #include <d3d11.h>
 #include <tchar.h>
 
@@ -70,6 +71,7 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // Setup Dear ImGui style
@@ -128,52 +130,80 @@ int main(int, char**)
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         
         ImGui::ShowDemoWindow(&show_demo_window);
-        // {
-        //     ImGui::Begin("DAQ");
-        //     {
-
-        //         std::ifstream file("output.txt");
-        //         if (!file.is_open()) {
-        //             std::cerr << "Failed to open file." << std::endl;
-        //             return 1;
-        //         }
-
-        //         std::vector<float> floatArray;
-        //         std::string line;
-        //         while (std::getline(file, line)) {
-        //             std::istringstream iss(line);
-        //             float num;
-        //             while (iss >> num) {
-        //                 floatArray.push_back(num);
-        //             }
-        //         }
-        //         file.close();
-
-        //         // 将vector转换为数组
-        //         float* floatArrayPtr = new float[floatArray.size()];
-        //         for (size_t i = 0; i < floatArray.size(); ++i) {
-        //             floatArrayPtr[i] = floatArray[i];
-        //         }
-
-        //         ImGui::PlotLines("daq", floatArrayPtr, floatArray.size(), 0, NULL, -0.005f, 0.005f, ImVec2(800, 600.0f));
-        //         delete[] floatArrayPtr;
-        //     }
-
-        //     ImGui::End();
-        // }
-
+        ImPlot::ShowDemoWindow();
         
+
         // static bool trig = false;
         {
             ImGui::Begin("Config"); 
             int open_action = -1;
-            if (ImGui::Button("Open all"))
+
+            if (ImGui::Button("Expand"))
                 open_action = 1;
             ImGui::SameLine();
-            if (ImGui::Button("Close all"))
+            if (ImGui::Button("Collapse"))
                 open_action = 0;
-            // ImGui::SameLine();
             ImGui::Separator();
+
+            static int SampleCount = 100;
+            ImGui::InputInt("Sample Count", &SampleCount);
+            
+            static int SampleRate = 5000;
+            ImGui::InputInt("Sample rate", &SampleRate);
+
+            static int SampleEnable = 1;
+            ImGui::InputInt("Sample enable", &SampleEnable);
+
+
+            // static bool plot_open = false;
+            static int key = 0;
+            static int channel_count = 0;
+            static float *data = NULL;
+            static int data_size = 0;
+            static int plot_flag = WAITING_CONFIG;
+            if (ImGui::Button("Start")) {
+                string config = GetConfigTxt(boardVec);
+                key = Start(config.c_str(), SampleRate, SampleEnable);
+                if (key < 0) {
+                    plot_flag = START_ERROR;
+                } else {           
+                    channel_count = get_channel_count(key);
+                    data_size = SampleCount * channel_count;
+                    data = new float[data_size];
+                    plot_flag = START_OK;
+                }
+            }
+            if (key && (plot_flag == START_OK || plot_flag == READ_OK)) {
+                int rc = read(key, data, data_size, SampleCount);
+                if (rc < 0) {
+                    printf("read failed: %d\n", rc);
+                    plot_flag = READ_ERROR;
+                } else {
+                    rc = Data2Plots(boardVec, data, data_size, SampleCount);
+                    if (rc < 0) {
+                        printf("Data2Plots failed: %d\n", rc);
+                        plot_flag = READ_ERROR;
+                    } else {
+                        plot_flag = READ_OK;
+                    }
+                }    
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Stop")) {
+                int rc = board_free(key);
+                if (rc < 0) {
+                    plot_flag = STOP_ERROR;
+                } else {
+                    delete[] data;
+                    plot_flag = STOP_OK;
+                }  
+            }
+            
+
+
+            ShowBoardPlotsWindows(boardVec, SampleCount);
+
+                
 
             static int config_flag = 1;
             if (ImGui::Button("BuildConfigTxt")) {
@@ -190,12 +220,65 @@ int main(int, char**)
 
 
             for (int i = 0; i < boardVec.size(); i++) {
-                ShowBoardWindow(boardVec[i], open_action);
+                ShowBoard(boardVec[i], open_action);
             }
+
             ImGui::End();      
         }
 
-    
+        // {
+            
+        //     ImGui::Begin("Board Plots"); 
+
+        //     // Checkbox for each channel
+        //     int num = 0;
+        //     for (int i = 0; i < boardVec.size(); i++) {
+        //         ImGui::Text("Board %d (%s):", i, boardVec[i].GetIp().c_str());
+        //         for (int j = 1; j < boardVec[i].channel_count; j++) {            
+        //             if (boardVec[i].channel[j].ctrl) {
+        //                 ImGui::SameLine();
+        //                 char label[256] = {0};
+        //                 sprintf(label, "%d: Ch %d", num++, j);
+        //                 ImGui::Checkbox(label, &boardVec[i].channel[j].show);    
+        //             }
+        //         }
+        //         ImGui::Separator();
+        //     }
+
+        //     // static bool paused = false;
+        //     // static ScrollingBuffer dataAnalog[2];
+        //     // static bool showAnalog[2] = {true, false};
+
+
+        //     // ImGui::Checkbox("analog_0",  &showAnalog[0]);  ImGui::SameLine();
+        //     // ImGui::Checkbox("analog_1",  &showAnalog[1]);
+
+        //     // static float t = 0;
+        //     // if (!paused) {
+        //     //     t += ImGui::GetIO().DeltaTime;
+
+        //     //     if (showAnalog[0])
+        //     //         dataAnalog[0].AddPoint(t, sinf(2*t));
+        //     //     if (showAnalog[1])
+        //     //         dataAnalog[1].AddPoint(t, cosf(2*t));
+        //     // }
+        //     // char label[32];
+        //     // if (ImPlot::BeginPlot("##Digital")) {
+        //     //     ImPlot::SetupAxisLimits(ImAxis_X1, t - 10.0, t, paused ? ImGuiCond_Once : ImGuiCond_Always);
+        //     //     ImPlot::SetupAxisLimits(ImAxis_Y1, -1, 1);
+
+        //     //     for (int i = 0; i < 2; ++i) {
+        //     //         if (showAnalog[i]) {
+        //     //             snprintf(label, sizeof(label), "analog_%d", i);
+        //     //             if (dataAnalog[i].Data.size() > 0)
+        //     //                 ImPlot::PlotLine(label, &dataAnalog[i].Data[0].x, &dataAnalog[i].Data[0].y, dataAnalog[i].Data.size(), 0, dataAnalog[i].Offset, 2 * sizeof(float));
+        //     //         }
+        //     //     }
+        //     // }
+                
+        //     // ImPlot::EndPlot();
+        //     ImGui::End();
+        // }
 
         // Rendering
         ImGui::Render();
@@ -211,6 +294,7 @@ int main(int, char**)
     // Cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
     CleanupDeviceD3D();

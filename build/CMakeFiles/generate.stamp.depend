@@ -25,6 +25,7 @@ C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/3.30.2/CMakeCXXCompiler.cmake
 C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/3.30.2/CMakeRCCompiler.cmake
 C:/Users/prm/Desktop/daq_ui/build/CMakeFiles/3.30.2/CMakeSystem.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/ZeroMQ-Target-release.cmake
+C:/Users/prm/Desktop/daq_ui/build/generators/ZeroMQ-release-x86-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/ZeroMQ-release-x86_64-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/ZeroMQConfig.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/ZeroMQConfigVersion.cmake
@@ -34,10 +35,12 @@ C:/Users/prm/Desktop/daq_ui/build/generators/conan_toolchain.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/imgui-Target-release.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/imgui-config-version.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/imgui-config.cmake
+C:/Users/prm/Desktop/daq_ui/build/generators/imgui-release-x86-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/imgui-release-x86_64-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/imguiTargets.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/libsodium-Target-release.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/libsodium-config-version.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/libsodium-config.cmake
+C:/Users/prm/Desktop/daq_ui/build/generators/libsodium-release-x86-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/libsodium-release-x86_64-data.cmake
 C:/Users/prm/Desktop/daq_ui/build/generators/libsodiumTargets.cmake

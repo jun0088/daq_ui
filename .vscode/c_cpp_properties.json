@@ -7,7 +7,7 @@
                 "C:/Users/prm/.conan2/p/zeromec2ecc4e3be71/p/include",
                 "C:/Users/prm/.conan2/p/libsod7e5db4c9d86c/p/include",
                 "C:/Users/prm/.conan2/p/imgui1895edcc2db9a/p/include",
-                // "${workspaceFolder}/external/Collections-C/src/include",
+                "${workspaceFolder}/external/Collections-C/src/include",
                 "${workspaceFolder}/external/imgui/backends"
             ],
             "defines": [

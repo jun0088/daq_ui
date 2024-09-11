@@ -74,6 +74,7 @@
         "algorithm": "cpp",
         "optional": "cpp",
         "regex": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "time.h": "c"
     }
 }

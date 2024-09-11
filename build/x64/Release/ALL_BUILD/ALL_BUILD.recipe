@@ -5,7 +5,82 @@
       <FullPath>C:\Users\prm\Desktop\daq_ui\build\x64\Release\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\adding_key_value_pairs.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\array_sized_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\array_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\configuration.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\custom_key_types.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>C:\Users\prm\Desktop\daq_ui\build\Release\daq_ui.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\deque_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\benchmark\pool\Release\dpool_bench.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\dynamic_pool_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\getting_info_about_the_table_and_pairs.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\hashset_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\hashtable_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\iterating_over_pairs.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\list_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\pointer_keys.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\pqueue_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\queue_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\rbuf_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\removing_key_value_pairs.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\slist_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\stack_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\static_pool_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\examples\hashtable\Release\string_keys.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\treeset_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\treetable_test.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\prm\Desktop\daq_ui\build\external\Collections-C\test\unit\Release\tsttable_test.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>C:\Users\prm\Desktop\daq_ui\build\x64\Release\ALL_BUILD</FullPath>

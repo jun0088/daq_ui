@@ -1,12 +1,13 @@
 #include "daq_ui.h"
 #include "imgui.h"
+#include "daq.h"
+#include "implot.h"
 #include <stdio.h>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <regex>
 #include <vector>
-
 
 #include <winsock2.h>
 #include <Windows.h>
@@ -15,9 +16,10 @@
 
 using namespace std;
 
-Channel::Channel(int id)
+UiChannel::UiChannel(int id)
 {
     _id = id;
+    show = true;
     ctrl = false;
     gain = false;
     iepe = false;
@@ -25,18 +27,27 @@ Channel::Channel(int id)
     calenable = false;   
 }
 
-int Channel::GetId()
+int UiChannel::GetId()
 {
     return _id;
 }
 
-int Channel::ToInt(bool cfg)
+int UiChannel::ToInt(bool cfg)
 {
     if (cfg) {
         return 1;
     } else {
         return 0;
     }
+}
+
+int UiChannel::ToPlot(float *data, int len)
+{
+    for (int i = 0; i < len; i++) {
+        plot.AddPoint(i/1.0, data[i]); 
+        printf("%f\n", data[i]);
+    }
+    return 0;
 }
 
 Board::Board()
@@ -67,7 +78,7 @@ int Board::GetId()
     return _id;
 }
 
-void Board::ScanAll()
+void Board::SyncAllConfig()
 {
     for (int i = 1; i < channel_count; i++) {
         if (channel[0].ctrl) {
@@ -91,15 +102,17 @@ void Board::ScanAll()
 string Board::ConfigTxt()
 {
     string txt = "";
-    if (trig == 1) {
-        // 192.168.0.174/trig?internal=1
-        txt += this->GetIp() + "/trig?internal=1" + "\n";
+    if (this->trig == -1) {
+        return txt;
     }
+    // 192.168.0.173/trig?chainMode=0
+    txt += this->GetIp() + "/trig?chainMode=" + to_string(this->trig) + "\n";
     for (int i = 1; i < channel_count; i++) {
         // 192.168.0.174/ai0?ctrl=1&gain=0&iepe=1&coupling=1&cal=0
         if (!channel[i].ctrl) {
             continue;
         }
+        
         txt += this->GetIp() + "/ai" + to_string(this->channel[i].GetId()) + "?ctrl=1";
         txt += "&gain=" + to_string(channel[i].ToInt(channel[i].gain));
         txt += "&iepe=" + to_string(channel[i].ToInt(channel[i].iepe));
@@ -110,7 +123,8 @@ string Board::ConfigTxt()
     return txt;
 }
 
-void ShowBoardWindow(Board &board, int open_action)
+
+void ShowBoard(Board &board, int open_action)
 {
     if (open_action != -1)
         ImGui::SetNextItemOpen(open_action != 0);
@@ -120,8 +134,10 @@ void ShowBoardWindow(Board &board, int open_action)
     if (ImGui::TreeNode(title)) {
 
         ImGui::Text("trig: "); ImGui::SameLine();
-        ImGui::RadioButton("internal", &board.trig, 1); ImGui::SameLine();
-        ImGui::RadioButton("external", &board.trig, 0);
+        ImGui::RadioButton("STARTING", &board.trig, 0);     ImGui::SameLine();
+        ImGui::RadioButton("INTERMEDIA", &board.trig, 1);   ImGui::SameLine();
+        ImGui::RadioButton("TERMINATING", &board.trig, 2);  ImGui::SameLine();
+        ImGui::RadioButton("UNABLE", &board.trig, -1);    
 
         static ImGuiTableFlags flags1 = ImGuiTableFlags_BordersV;
         static int col = 6;
@@ -145,7 +161,7 @@ void ShowBoardWindow(Board &board, int open_action)
                         }
                     } else {
                         static bool *tmp = NULL;
-                        board.ScanAll();
+                        board.SyncAllConfig();
                         if (column == CTRL) {
                             tmp = &(board.channel[row].ctrl);
                         } else if (column == GAIN) {
@@ -287,14 +303,19 @@ void Stringsplit(const string& str, const string& splits, vector<string>& res)
 	}
 }
 
-int BuildConfigTxt(vector<Board> &boardVec)
+string GetConfigTxt(vector<Board> &boardVec)
 {
     string txt = "";
     for (int i = 0; i < boardVec.size(); i++) {
         txt += boardVec[i].ConfigTxt();
     }
     cout << txt << endl;
+    return txt;
+}
 
+int BuildConfigTxt(vector<Board> &boardVec)
+{
+    string txt = GetConfigTxt(boardVec);
     ofstream file;
     file.open("config.txt");
     if (!file.is_open()) {
@@ -305,4 +326,104 @@ int BuildConfigTxt(vector<Board> &boardVec)
     file.close();
     cout << "build config.txt done" << endl;
     return 0;
+}
+
+void ShowBoardPlotsWindows(vector<Board> &boardVec, int SampleCount)
+{
+    // if (!ImGui::Begin("Board Plots", plot_open)) {
+    //     ImGui::End();
+    //     return; 
+    // }
+    ImGui::Begin("Board Plots");
+    // Checkbox for each channel
+    int num = 0;
+    for (int i = 0; i < boardVec.size(); i++) {
+        ImGui::Text("Board %d (%s):", i, boardVec[i].GetIp().c_str());
+        for (int j = 1; j < boardVec[i].channel_count; j++) {            
+            if (boardVec[i].channel[j].ctrl) {
+                ImGui::SameLine();
+                char label[256] = {0};
+                sprintf(label, "%d: Ch %d", num++, j);
+                ImGui::Checkbox(label, &boardVec[i].channel[j].show);    
+            }
+        }
+        ImGui::Separator();
+    }
+
+    char label[32];
+    if (ImPlot::BeginPlot("##Digital")) {
+        ImPlot::SetupAxisLimits(ImAxis_X1, 0, SampleCount, ImGuiCond_Always);
+        ImPlot::SetupAxisLimits(ImAxis_Y1, -3, 3);
+        int num = 0;
+        for (int i = 0; i < boardVec.size(); i++) {
+            for (int j = 1; j < boardVec[i].channel_count; j++) {
+                if (boardVec[i].channel[j].ctrl && boardVec[i].channel[j].show) {
+                    sprintf(label, "%d Ch %d", num++, j);
+                    ScrollingBuffer &plot = boardVec[i].channel[j].plot;
+                    if (boardVec[i].channel[j].plot.Data.size() == SampleCount) {
+                        // ImPlot::PlotLine(label, boardVec[i].channel[j].plot.Data[0].x, boardVec[i].channel[j].plot.Data[0].y, SampleCount, 0, boardVec[i].channel[j].plot.Offset, 2 * sizeof(float));
+                        ImPlot::PlotLine(label, &plot.Data[0].x, &plot.Data[0].y, SampleCount, 0, plot.Offset, 2 * sizeof(float));
+                    }
+                }
+            }
+        }
+    }
+        
+    ImPlot::EndPlot();
+    ImGui::End();   
+}
+
+int GetUIChannelCount(vector<Board> &boardVec)
+{
+    int num = 0;
+    for (int i = 0; i < boardVec.size(); i++) {
+        for (int j = 1; j < boardVec[i].channel_count; j++) {
+            if (boardVec[i].channel[j].ctrl) {
+                num++;
+            }
+        }
+    }
+    return num;
+}
+
+int Data2Plots(vector<Board> &boardVec, float *data, int data_size, int SampleCount)
+{
+    int count = GetUIChannelCount(boardVec);
+    if (count * SampleCount != data_size) {
+        return -1;
+    }
+    int num = 0;
+    for (int i = 0; i < boardVec.size(); i++) {
+        for (int j = 1; j < boardVec[i].channel_count; j++) {
+            if (boardVec[i].channel[j].ctrl) {
+                boardVec[i].channel[j].ToPlot(data + num*SampleCount, SampleCount);
+                num++;
+            }
+        }
+    }
+    return 0;
+}
+
+int Start(const char *config, int SampleRate, int SampleEnable)
+{
+    int key = board_init(config);
+    if (key < 0) {
+        return -1;
+    }
+    int channel_count = get_channel_count(key);
+    if (channel_count < 0) {
+        board_free(key);
+        return -2;
+    }
+    int rc = sample_rate(key, SampleRate);
+    if (rc < 0) {
+        board_free(key);
+        return -3;
+    }
+    rc = sample_enable(key, SampleEnable);
+    if (rc < 0) {
+        board_free(key);
+        return -4;
+    }   
+    return key;
 }
