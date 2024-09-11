@@ -56,21 +56,19 @@ Board::Board()
     _ip = "127.0.0.1";
 }
 
-Board::Board(int id, string ip)
+Board::Board(int id)
 {
-
     _id = id;
-    _ip = ip;
 }
-
-// void Board::SetIp(string ip)
-// {
-//     _ip = ip;
-// }
 
 string Board::GetIp()
 {
     return _ip;
+}
+
+string Board::GetMac()
+{
+    return _mac;
 }
 
 int Board::GetId()
@@ -123,6 +121,16 @@ string Board::ConfigTxt()
     return txt;
 }
 
+int Board::ParseIpMac(string Dev)
+{
+    cout << "Dev: " << Dev << endl;
+    string tmp_ip = extractIp(Dev);
+    this->_ip = convertHexToIPAddress(tmp_ip);
+    cout << "IP: " << this->_ip << endl;
+    this->_mac = extractMac(Dev);
+    cout << "MAC: " << this->_mac << endl;
+    return 0;
+}
 
 void ShowBoard(Board &board, int open_action)
 {
@@ -186,7 +194,6 @@ void ShowBoard(Board &board, int open_action)
     }
 }
 
-
 string ScanBoard() 
 {
 
@@ -234,7 +241,7 @@ string ScanBoard()
 	char buf[1024];
     // memset(buf, 0, 1024);
     // int read_index = 0;
-    string arrIp;
+    string arrDev;
     while (1) {
         memset(buf, 0, 1024);
         int size = recvfrom(sock, buf, 1024, 0, NULL, NULL);
@@ -242,24 +249,35 @@ string ScanBoard()
             // printf("read done\n");
             break;
         } 
-        if (arrIp.size() > 0) {
-            arrIp += ",";
+        // printf("recv size: %d \nrecvfrom:%s\n", size, buf);
+        if (arrDev.size() > 0) {
+            arrDev += ",";
         }
-        string tmp_ip = extractIPAddress(buf);
-        string ip = convertHexToIPAddress(tmp_ip);
-        arrIp += ip;
+        // string tmp_ip = extractIPAddress(buf);
+        // string ip = convertHexToIPAddress(tmp_ip);
+        arrDev += buf;
         // printf("recv size: %d \nrecvfrom:%s\n", size, buf);       
     }
     closesocket(sock);
     WSACleanup();
 
-    // std::cout << "arrIp: " << arrIp << std::endl;
-    return arrIp;
+    std::cout << "arrDev: " << arrDev << std::endl;
+    return arrDev;
 }
 
-std::string extractIPAddress(const std::string& input) 
+std::string extractIp(const std::string& input) 
 {
     std::regex pattern(R"(ip=(\w+))");
+    std::smatch match;
+    if (std::regex_search(input, match, pattern)) {
+        return match[1];
+    }
+    return "";
+}
+
+std::string extractMac(const std::string& input) 
+{
+    std::regex pattern(R"(mac=(\w+))");
     std::smatch match;
     if (std::regex_search(input, match, pattern)) {
         return match[1];
@@ -286,7 +304,6 @@ std::string convertHexToIPAddress(const std::string& hex)
     return ipAddress;
 }
 
-
 void Stringsplit(const string& str, const string& splits, vector<string>& res)
 {
 	if (str == "")		return;
@@ -301,6 +318,31 @@ void Stringsplit(const string& str, const string& splits, vector<string>& res)
 		strs = strs.substr(pos + step, strs.size());
 		pos = strs.find(splits);
 	}
+}
+
+int boardVecInit(vector<Board> &boardVec)
+{
+    string arrDev = ScanBoard();
+    if (arrDev.empty()) {
+        printf("Failed to scan board\n");
+        // return -1;
+    }
+    // cout << "Board IPs: " << arrIp << endl;
+    vector<string> arrDevVec;
+    Stringsplit(arrDev, ",", arrDevVec);
+    if (arrDevVec.size() == 0) {
+        printf("Failed to split board IP\n");
+        // return -1;
+    }
+
+    for (int i = 0; i < arrDevVec.size(); i++) {
+        boardVec.push_back(Board(i));
+        if (boardVec[i].ParseIpMac(arrDevVec[i]) != 0) {
+            printf("Failed to parse board Ip and Mac\n");
+            return -1;
+        }
+    }
+    return 0;
 }
 
 string GetConfigTxt(vector<Board> &boardVec)
@@ -338,7 +380,7 @@ void ShowBoardPlotsWindows(vector<Board> &boardVec, int SampleCount)
     // Checkbox for each channel
     int num = 0;
     for (int i = 0; i < boardVec.size(); i++) {
-        ImGui::Text("Board %d (%s):", i, boardVec[i].GetIp().c_str());
+        ImGui::Text("Board %d (mac=%s ip=%s):", i, boardVec[i].GetMac().c_str(), boardVec[i].GetIp().c_str());
         for (int j = 1; j < boardVec[i].channel_count; j++) {            
             if (boardVec[i].channel[j].ctrl) {
                 ImGui::SameLine();

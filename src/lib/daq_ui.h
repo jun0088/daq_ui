@@ -62,13 +62,14 @@ class Board {
         UiChannel channel[7] = {-1, 0, 1, 2, 3, 4, 5};
         int channel_count = 7;
         Board();
-        Board(int id, string ip);
+        Board(int id);
         void SyncAllConfig();
         // void SetIp(string ip);
         string GetIp();
+        string GetMac();
         int GetId();
         string ConfigTxt();
-        
+        int ParseIpMac(string Dev);
     
     private:
         int _id;
@@ -100,11 +101,12 @@ int BuildConfigTxt(vector<Board> &boardVec);
 void ShowBoardPlotsWindows(vector<Board> &boardVec, int SampleCount);
 string GetConfigTxt(vector<Board> &boardVec);
 int Data2Plots(vector<Board> &boardVec, float *data, int data_size, int SampleCount);
-string extractIPAddress(const string& input);
+string extractIp(const string& input);
+string extractMac(const string& input) ;
 string convertHexToIPAddress(const string& hex);
 void Stringsplit(const string& str, const string& splits, vector<string>& res);
 int Start(const char *config, int SampleRate, int SampleEnable);
-
+int boardVecInit(vector<Board> &boardVec);
 
 
 

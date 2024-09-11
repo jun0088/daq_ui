@@ -34,22 +34,6 @@ using namespace std;
 int main(int, char**)
 {
 
-    // string arrIp = ScanBoard();
-    // if (arrIp.empty()) {
-    //     printf("Failed to scan board\n");
-    //     return -1;
-    // }
-    // cout << "Board IPs: " << arrIp << endl;
-    // vector<string> arrIpVec;
-    // Stringsplit(arrIp, ",", arrIpVec);
-    // if (arrIpVec.size() == 0) {
-    //     printf("Failed to split board IP\n");
-    //     return -1;
-    // }
-    // for (int i = 0; i < arrIpVec.size(); i++) {
-    //     cout << "Board IP: " << arrIpVec[i] << endl;
-    // }
-
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL };
@@ -86,24 +70,10 @@ int main(int, char**)
     bool show_demo_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    
-    static string arrIp = ScanBoard();
-    if (arrIp.empty()) {
-        printf("Failed to scan board\n");
-        // return -1;
-    }
-    // cout << "Board IPs: " << arrIp << endl;
-    static vector<string> arrIpVec;
-    Stringsplit(arrIp, ",", arrIpVec);
-    if (arrIpVec.size() == 0) {
-        printf("Failed to split board IP\n");
-        // return -1;
-    }
-
     static vector<Board> boardVec;
-    for (int i = 0; i < arrIpVec.size(); i++) {
-        boardVec.push_back(Board(i, arrIpVec[i]));
-    }
+    boardVecInit(boardVec);
+
+
 
     // Main loop
     bool done = false;
